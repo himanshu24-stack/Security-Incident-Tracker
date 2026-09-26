@@ -1,0 +1,225 @@
+﻿<Window x:Class="SecurityIncidentTracker.Views.DashboardWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Security Incident Tracker - Dashboard"
+        Height="720" Width="1100"
+        MinHeight="650" MinWidth="950"
+        WindowStartupLocation="CenterScreen"
+        Background="#0F172A"
+        FontFamily="Segoe UI">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <!-- Left Navigation Sidebar -->
+            <ColumnDefinition Width="240"/>
+            <!-- Main Content Area -->
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- SIDEBAR -->
+        <Border Grid.Column="0" Background="#1E293B" BorderBrush="#334155" BorderThickness="0,0,1,0">
+            <DockPanel LastChildFill="False">
+                
+                <!-- Brand Header -->
+                <StackPanel DockPanel.Dock="Top" Margin="20,25,20,30">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <TextBlock Text="🛡️" FontSize="26" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBlock Text="Incident Tracker" FontSize="18" FontWeight="Bold" Foreground="#F8FAFC" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock Text="SOC Minor Project" FontSize="11" Foreground="#64748B"/>
+                    <Separator Background="#334155" Margin="0,15,0,0"/>
+                </StackPanel>
+
+                <!-- User Profile Badge -->
+                <Border DockPanel.Dock="Top" Background="#0F172A" CornerRadius="8" Padding="12,10" Margin="15,0,15,25" BorderBrush="#334155" BorderThickness="1">
+                    <StackPanel>
+                        <TextBlock Text="CURRENT OPERATOR" FontSize="10" FontWeight="Bold" Foreground="#64748B" Margin="0,0,0,3"/>
+                        <TextBlock x:Name="lblCurrentUser" Text="admin (Administrator)" FontSize="13" FontWeight="SemiBold" Foreground="#38BDF8"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Navigation Links -->
+                <StackPanel DockPanel.Dock="Top" Margin="15,0">
+                    <!-- Dashboard Nav Button (Active) -->
+                    <Button Content="📊   Dashboard" Height="42" 
+                            Background="#2563EB" Foreground="#FFFFFF" 
+                            FontWeight="SemiBold" FontSize="13" HorizontalContentAlignment="Left" 
+                            Padding="15,0" Cursor="Hand" Margin="0,0,0,8">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="6"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+
+                    <!-- Incidents Nav Button -->
+                    <Button x:Name="btnNavIncidents" Content="🛡️   Incidents" Height="42" 
+                            Background="Transparent" Foreground="#94A3B8" 
+                            FontWeight="SemiBold" FontSize="13" HorizontalContentAlignment="Left" 
+                            Padding="15,0" Cursor="Hand" Margin="0,0,0,8"
+                            Click="BtnNavIncidents_Click">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="6"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </StackPanel>
+
+                <!-- Logout Button (Pinned to Bottom) -->
+                <Button DockPanel.Dock="Bottom" Content="🚪   Logout" Height="42" 
+                        Background="#334155" Foreground="#F87171" 
+                        FontWeight="SemiBold" FontSize="13" HorizontalContentAlignment="Left" 
+                        Padding="15,0" Margin="15,0,15,25" Cursor="Hand"
+                        Click="BtnLogout_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="6"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+            </DockPanel>
+        </Border>
+
+        <!-- MAIN DASHBOARD CONTENT -->
+        <Grid Grid.Column="1" Margin="30,25,30,25">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/> <!-- Title & Refresh -->
+                <RowDefinition Height="Auto"/> <!-- Stat KPI Cards -->
+                <RowDefinition Height="Auto"/> <!-- Action Banner -->
+                <RowDefinition Height="*"/>    <!-- Recent Incidents Table -->
+            </Grid.RowDefinitions>
+
+            <!-- Row 0: Header and Refresh -->
+            <Grid Grid.Row="0" Margin="0,0,0,25">
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="Security Operations Dashboard" FontSize="22" FontWeight="Bold" Foreground="#F8FAFC"/>
+                    <TextBlock Text="Real-time overview of logged security events and system investigations" FontSize="13" Foreground="#94A3B8" Margin="0,3,0,0"/>
+                </StackPanel>
+
+                <Button Content="🔄 Refresh Data" Width="130" Height="36" 
+                        HorizontalAlignment="Right" VerticalAlignment="Center"
+                        Background="#334155" Foreground="#E2E8F0" FontSize="12" FontWeight="SemiBold" 
+                        Cursor="Hand" Click="BtnRefresh_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="6"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </Grid>
+
+            <!-- Row 1: KPI Stat Cards -->
+            <UniformGrid Grid.Row="1" Columns="5" Margin="0,0,0,25">
+                
+                <!-- Card 1: Total Incidents -->
+                <Border Background="#1E293B" CornerRadius="10" Margin="0,0,10,0" Padding="16,14" BorderBrush="#3B82F6" BorderThickness="0,3,0,0">
+                    <StackPanel>
+                        <TextBlock Text="Total Incidents" FontSize="12" Foreground="#94A3B8"/>
+                        <TextBlock x:Name="lblTotalIncidents" Text="0" FontSize="28" FontWeight="Bold" Foreground="#F8FAFC" Margin="0,6,0,0"/>
+                        <TextBlock Text="All time logged" FontSize="11" Foreground="#64748B" Margin="0,2,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Card 2: Open Incidents -->
+                <Border Background="#1E293B" CornerRadius="10" Margin="5,0,5,0" Padding="16,14" BorderBrush="#F59E0B" BorderThickness="0,3,0,0">
+                    <StackPanel>
+                        <TextBlock Text="Open Incidents" FontSize="12" Foreground="#94A3B8"/>
+                        <TextBlock x:Name="lblOpenIncidents" Text="0" FontSize="28" FontWeight="Bold" Foreground="#F59E0B" Margin="0,6,0,0"/>
+                        <TextBlock Text="Pending action" FontSize="11" Foreground="#64748B" Margin="0,2,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Card 3: Investigating -->
+                <Border Background="#1E293B" CornerRadius="10" Margin="5,0,5,0" Padding="16,14" BorderBrush="#8B5CF6" BorderThickness="0,3,0,0">
+                    <StackPanel>
+                        <TextBlock Text="Investigating" FontSize="12" Foreground="#94A3B8"/>
+                        <TextBlock x:Name="lblInvestigatingIncidents" Text="0" FontSize="28" FontWeight="Bold" Foreground="#A78BFA" Margin="0,6,0,0"/>
+                        <TextBlock Text="Under active review" FontSize="11" Foreground="#64748B" Margin="0,2,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Card 4: Resolved -->
+                <Border Background="#1E293B" CornerRadius="10" Margin="5,0,5,0" Padding="16,14" BorderBrush="#10B981" BorderThickness="0,3,0,0">
+                    <StackPanel>
+                        <TextBlock Text="Resolved" FontSize="12" Foreground="#94A3B8"/>
+                        <TextBlock x:Name="lblResolvedIncidents" Text="0" FontSize="28" FontWeight="Bold" Foreground="#34D399" Margin="0,6,0,0"/>
+                        <TextBlock Text="Closed tickets" FontSize="11" Foreground="#64748B" Margin="0,2,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Card 5: High / Critical -->
+                <Border Background="#1E293B" CornerRadius="10" Margin="10,0,0,0" Padding="16,14" BorderBrush="#EF4444" BorderThickness="0,3,0,0">
+                    <StackPanel>
+                        <TextBlock Text="High / Critical" FontSize="12" Foreground="#94A3B8"/>
+                        <TextBlock x:Name="lblCriticalIncidents" Text="0" FontSize="28" FontWeight="Bold" Foreground="#F87171" Margin="0,6,0,0"/>
+                        <TextBlock Text="Priority attention" FontSize="11" Foreground="#64748B" Margin="0,2,0,0"/>
+                    </StackPanel>
+                </Border>
+
+            </UniformGrid>
+
+            <!-- Row 2: Manage Incidents Action Banner -->
+            <Border Grid.Row="2" Background="#1E293B" CornerRadius="8" Padding="18,12" Margin="0,0,0,20" BorderBrush="#334155" BorderThickness="1">
+                <Grid>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Incident Management Module" FontSize="14" FontWeight="Bold" Foreground="#F8FAFC"/>
+                        <TextBlock Text="Create, search, filter, update status, and remove security incidents." FontSize="12" Foreground="#94A3B8"/>
+                    </StackPanel>
+                    <Button Content="Go to Incident Management →" Width="220" Height="36" 
+                            HorizontalAlignment="Right" VerticalAlignment="Center"
+                            Background="#2563EB" Foreground="#FFFFFF" FontSize="12" FontWeight="SemiBold" 
+                            Cursor="Hand" Click="BtnNavIncidents_Click">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="6"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </Grid>
+            </Border>
+
+            <!-- Row 3: Recent Incidents Preview Grid -->
+            <Border Grid.Row="3" Background="#1E293B" CornerRadius="10" Padding="16" BorderBrush="#334155" BorderThickness="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="Recent Security Incidents" FontSize="14" FontWeight="SemiBold" Foreground="#F8FAFC" Margin="0,0,0,12"/>
+
+                    <DataGrid Grid.Row="1" x:Name="dgRecentIncidents" AutoGenerateColumns="False" 
+                              IsReadOnly="True" HeadersVisibility="Column" GridLinesVisibility="Horizontal"
+                              Background="#0F172A" RowBackground="#0F172A" AlternatingRowBackground="#1E293B"
+                              Foreground="#E2E8F0" HorizontalGridLinesBrush="#334155" 
+                              BorderBrush="#334155" BorderThickness="1"
+                              CanUserAddRows="False" CanUserDeleteRows="False" SelectionMode="Single">
+                        
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Background" Value="#334155"/>
+                                <Setter Property="Foreground" Value="#F8FAFC"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                <Setter Property="Padding" Value="10,8"/>
+                                <Setter Property="BorderBrush" Value="#1E293B"/>
+                                <Setter Property="BorderThickness" Value="0,0,1,0"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                            <DataGridTextColumn Header="Type" Binding="{Binding IncidentType}" Width="140"/>
+                            <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
+                            <DataGridTextColumn Header="Severity" Binding="{Binding Severity}" Width="90"/>
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100"/>
+                            <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat={}{0:yyyy-MM-dd HH:mm}}" Width="140"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+
+        </Grid>
+    </Grid>
+</Window>
