@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch SecurityIncidentTracker (WPF)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/SecurityIncidentTracker/bin/Debug/net8.0-windows/SecurityIncidentTracker.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/SecurityIncidentTracker",
+      "stopAtEntry": false,
+      "console": "internalConsole"
+    }
+  ]
+}
