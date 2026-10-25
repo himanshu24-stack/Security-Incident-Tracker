@@ -6,7 +6,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
-      "program": "${workspaceFolder}/SecurityIncidentTracker/bin/Debug/net8.0-windows/SecurityIncidentTracker.dll",
+      "program": "${workspaceFolder}/SecurityIncidentTracker/bin/Debug/net10.0-windows/SecurityIncidentTracker.dll",
       "args": [],
       "cwd": "${workspaceFolder}/SecurityIncidentTracker",
       "stopAtEntry": false,
